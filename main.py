@@ -1,16 +1,19 @@
-# This is a sample Python script.
+from telegram import Update
+from telegram.ext import Updater, CommandHandler, CallbackContext
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from bot_commands import *
+
+token = None
+with open('token.txt') as f:
+    token = f.read().strip()
+updater = Updater(token)
+
+updater.dispatcher.add_handler(CommandHandler("hi", hi_command))
+updater.dispatcher.add_handler(CommandHandler("time", time_command))
+updater.dispatcher.add_handler(CommandHandler("help", help_command))
+updater.dispatcher.add_handler(CommandHandler("sum", sum_command))
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+print('server start')
+updater.start_polling()
+updater.idle()
